@@ -1,0 +1,16 @@
+{
+    "userInfo": {
+        "id": 3,
+        "date": "260620110301"
+    },
+    "advertData": [
+        {
+            "id": 2,
+            "company_name": "Mahi contstruction",
+            "product_name": "Mahi contstruction",
+            "maximumViewPerDay": 667,
+            "privilege": "Lowest",
+            "fileName": "tablet_advertising_20200625171223.mkv"
+        }
+    ]
+}
