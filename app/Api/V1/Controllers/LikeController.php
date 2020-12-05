@@ -15,8 +15,8 @@ class LikeController extends Controller
      */
     public function index()
     {
-        $like = Match::where('user_id',Auth::user()->id)
-        ->orWhere('liker_id',Auth::user()->id)->where('status',1)->get();
+        $like = Match::where('liker',Auth::user()->id)
+        ->orWhere('liked',Auth::user()->id)->where('status',1)->get();
 
         return LikeResource::collection($like);
     }
@@ -40,24 +40,27 @@ class LikeController extends Controller
     public function store(Request $request)
     {
         //
-        $preveData = Match::where('user_id',Auth::user()->id)->orWhere('liker_id',$request->user_id)->where('status',0)->get();
+        $preveData = Match::where('liked',Auth::user()->id)
+                        ->where('liker',$request->user_id)->where('status',0)->get();
         if(count($preveData)>0){
-
-            foreach($preveData as $data){
-                if($data['liker_id']==$request->user_id){
-                    $matches = Match::find($data['id']);
-                    $matches->status =1;
-                    $matches->save();
-                    return response()->json(['status'=>true,'message'=>'Your like is sent successfully']);
-                }
-            }
+            $matches = Match::find($preveData[0]['id']);
+            $matches->status=1;
+            $matches->save();
+            return response()->json(['status'=>true,'message'=>'Your like is sent successfully']);
 
         }else{
+
+            $prevMatches = Match::where('liked',Auth::user()->id)
+            ->where('liker',$request->user_id)->where('status',1)->get();
+            if(count($prevMatches)<=0){
             $match = new Match();
-            $match->user_id = $request->user_id;
-            $match->liker_id = Auth::user()->id;
+            $match->liked = $request->user_id;
+            $match->liker = Auth::user()->id;
             $match->save();
             return response()->json(['status'=>true,'message'=>'Your like is sent successfully']);
+            }else{
+                return response()->json(['status'=>true,'message'=>'Your like is sent successfully']);
+            }
         
         }
         

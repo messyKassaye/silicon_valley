@@ -17,9 +17,9 @@ class LikeResource extends JsonResource
     {
         return [
           'id'=>$this->id,
-          'user'=>Auth::user()->id==$this->liker_id?
-          User::find($this->user_id) 
-          :User::find($this->liker_id) 
+          'user'=>Auth::user()->id==$this->liker?
+          User::find($this->liked) 
+          :User::find($this->liker) 
         ];
     }
 }

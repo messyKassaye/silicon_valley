@@ -15,8 +15,8 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('liker_id');
+            $table->integer('liker');
+            $table->integer('liked');
             $table->boolean('status')->default(0);
             $table->timestamps();
         });
